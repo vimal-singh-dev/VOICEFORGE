@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VoiceForge v4</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>🎙 VoiceForge</h1>
+
+    <form action="/convert" method="post" enctype="multipart/form-data">
+        
+        <label>Enter Text</label>
+        <textarea name="text" required></textarea>
+
+        <label>Select Voice (Admin)</label>
+        <select name="voice">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+
+        <label>Upload Voice (Cloning – coming soon)</label>
+        <input type="file" name="voice_file" accept=".wav,.mp3">
+
+        <label>Speech Rate</label>
+        <input type="range" name="rate" min="100" max="200" value="150">
+
+        <label>Pitch (UI only)</label>
+        <input type="range" name="pitch" min="0" max="100" value="50">
+
+        <button type="submit">🎧 Convert to Speech</button>
+    </form>
+
+    <p class="note">Voice cloning will be enabled in Version 5</p>
+</div>
+
+</body>
+</html>

@@ -1,10 +1,16 @@
 from fastapi import FastAPI
-from routes.tts import router as tts_router
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from routes.tts import router
 
-app = FastAPI(title="VoiceForge v3")
+app = FastAPI(title="VoiceForge v4")
 
-app.include_router(tts_router)
+app.include_router(router)
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
-def root():
-    return {"status": "VoiceForge v3 running"}
+def home():
+    return {"status": "VoiceForge v4 running"}

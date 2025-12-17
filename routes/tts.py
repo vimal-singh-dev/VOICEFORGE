@@ -1,20 +1,23 @@
-from fastapi import APIRouter
-from services.pyttsx_engine import generate_pyttsx, list_voices
+from fastapi import APIRouter, Form, UploadFile, File
+from fastapi.responses import FileResponse, HTMLResponse
+from services.pyttsx_engine import generate_audio
+from fastapi.templating import Jinja2Templates
+from fastapi import Request
 
-router = APIRouter(prefix="/tts", tags=["Text-to-Speech"])
+router = APIRouter()
+templates = Jinja2Templates(directory="templates")
 
-@router.get("/voices")
-def get_voices():
-    return list_voices()
+@router.get("/ui", response_class=HTMLResponse)
+def ui(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @router.post("/convert")
-def convert_text(
-    text: str,
-    voice_id: str | None = None,
-    rate: int = 170
+async def convert(
+    text: str = Form(...),
+    voice: str = Form(...),
+    rate: int = Form(150),
+    pitch: int = Form(50),
+    voice_file: UploadFile = File(None)
 ):
-    file_path = generate_pyttsx(text, voice_id, rate)
-    return {
-        "status": "success",
-        "audio_file": file_path
-    }
+    output_path = generate_audio(text, voice, rate)
+    return FileResponse(output_path, media_type="audio/wav", filename="voiceforge.wav")
