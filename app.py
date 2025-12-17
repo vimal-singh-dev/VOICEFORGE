@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-from routes.tts import router as tts_router
+from routes.tts import router
 
-app = FastAPI(title="VoiceForge v2")
+app = FastAPI(title="VoiceForge v3")
 
-app.include_router(tts_router, prefix="/tts")
+app.include_router(router)
 
 @app.get("/")
-def home():
-    return {"status": "VoiceForge v2 running"}
+def root():
+    return {"status": "VoiceForge v3 running"}
